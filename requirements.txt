@@ -1,0 +1,5 @@
+rich
+supabase
+python-dotenv
+Flask
+Flask-Cors

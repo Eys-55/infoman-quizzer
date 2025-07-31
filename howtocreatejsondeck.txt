@@ -1,0 +1,133 @@
+SO YOU WANT TO MAKE A DECK WITH JSON? IT'S NOT ROCKET SCIENCE, BUT YOU'LL PROBABLY MESS IT UP ANYWAY.
+
+Listen closely. You are about to write in JSON (JavaScript Object Notation). It is a format with strict, unforgiving rules. There is no "almost". There is only "perfectly valid JSON" and "a worthless pile of characters that will be rejected instantly". Your computer does not care about your feelings or your "artistic" formatting. It demands perfection.
+
+READ THESE RULES. MEMORIZE THEM. DO NOT DEVIATE.
+
+COMMANDMENT I: THE ENTIRE THING IS ONE BIG OBJECT
+
+Your entire deck content must be enclosed in a single pair of curly braces `{}`. Not two. Not zero. ONE.
+
+CORRECT:
+`{ ... your whole deck ... }`
+
+WRONG (This is an array, you fool):
+`[ ... ]`
+
+WRONG (This is just garbage):
+`"deck_name": "My Deck"`
+
+COMMANDMENT II: KEYS ARE STRINGS, IN DOUBLE QUOTES. ALWAYS.
+
+Every key in your object MUST be a string, and that string MUST be enclosed in DOUBLE QUOTES (`"`). Not single quotes (`'`). Not backticks (`` ` ``). Not no quotes at all. DOUBLE. QUOTES.
+
+CORRECT:
+`"deck_name": "SQL Stuff"`
+
+WRONG (Single quotes are for chumps and Python dicts, not JSON):
+`'deck_name': "SQL Stuff"`
+
+WRONG (Are you writing a variable? This isn't JavaScript.):
+`deck_name: "SQL Stuff"`
+
+COMMANDMENT III: THE TWO SACRED TOP-LEVEL KEYS
+
+Your main object has exactly two required keys: `"deck_name"` and `"cards"`.
+
+1.  `"deck_name"`: The value is a STRING containing your deck's name.
+2.  `"cards"`: The value is an ARRAY (that's `[]`) of card objects.
+
+CORRECT:
+```json
+{
+  "deck_name": "My Awesome Deck",
+  "cards": [ ... card objects go here ... ]
+}
+```
+
+WRONG (Missing `"cards"`):
+`{ "deck_name": "My Awesome Deck" }`
+
+WRONG (What even is `"card_list"`? Stick to the spec!):
+`{ "deck_name": "My Awesome Deck", "card_list": [] }`
+
+COMMANDMENT IV: THE CARD OBJECT AND ITS HOLY TRINITY
+
+Each item inside the `"cards"` array is an OBJECT (curly braces `{}`). Each card object has its own set of keys.
+
+-   `"front_content"`: **REQUIRED**. The value is a STRING. This is the front of your card. Newlines are written as `\n`.
+-   `"back_content"`: **REQUIRED**. The value is a STRING. If you have no back, use an empty string `""`.
+-   `"tags"`: **OPTIONAL**. If you include it, the value MUST be an ARRAY of STRINGS. `["tag1", "tag2"]`. If you have no tags, you can either omit the key entirely or provide an empty array `[]`.
+
+CORRECT CARD OBJECT:
+```json
+{
+  "front_content": "What is an INNER JOIN?",
+  "back_content": "An INNER JOIN selects records that have matching values in both tables.\nIt is the most common type of join.",
+  "tags": ["sql", "joins"]
+}
+```
+
+CORRECT CARD OBJECT (No tags):
+```json
+{
+  "front_content": "What is 2+2?",
+  "back_content": "4"
+}
+```
+
+WRONG (Missing `"back_content"`. It's required, even if empty!):
+`{ "front_content": "Question" }`
+
+WRONG (Tags as a string? READ THE RULES. It must be an array!):
+`{ "front_content": "Q", "back_content": "A", "tags": "my-tag" }`
+
+COMMANDMENT V: COMMA, THE DESTROYER OF WORLDS
+
+Commas `,` are used to separate key-value pairs within an object, and to separate items in an array. The most common, soul-crushing error is the "trailing comma". The LAST item in an object or array MUST NOT have a comma after it.
+
+CORRECT:
+```json
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+```
+
+WRONG (Trailing comma after `"value2"`. The parser will choke and die.):
+```json
+{
+  "key1": "value1",
+  "key2": "value2",
+}
+```
+
+A PERFECT EXAMPLE. BURN IT INTO YOUR RETINA.
+
+This is a complete, valid deck. Your JSON should look like this. Use a JSON validator online before you even THINK about importing it.
+
+```json
+{
+  "deck_name": "JSON Parsing Rules",
+  "cards": [
+    {
+      "front_content": "What is the rule for JSON keys?",
+      "back_content": "They must be strings in DOUBLE QUOTES. No exceptions.",
+      "tags": ["rules", "json-basics"]
+    },
+    {
+      "front_content": "What is a trailing comma and why is it evil?",
+      "back_content": "It's a comma after the last element in an object or array. It makes the JSON invalid and brings shame upon your family.",
+      "tags": ["rules", "common-errors"]
+    },
+    {
+      "front_content": "This card has a table.\n[TABLE]\nHeader 1 | Header 2\n---|---\nRow 1 Col 1 | Row 1 Col 2\nRow 2 Col 1 | Row 2 Col 2\n[/TABLE]",
+      "back_content": "The table syntax is still valid inside the string content.",
+      "tags": []
+    }
+  ]
+}
+```
+
+FINAL WARNING:
+The computer is a relentless judge. It has no pity. It will not guess what you meant. Validate your JSON before you waste the server's time. Your sloppiness is your own problem. Get it right.
